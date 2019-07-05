@@ -13,7 +13,7 @@
 
       <div class="col-12 col-lg-6">
         <div class="place-button">
-          <% if (@place.user == current_user || current_user.is_admin) %>
+          <% if (@place.user == current_user || current_user&.is_admin) %>
           <%= link_to "Edit this place", edit_place_path(@place), class: "btn-first btn-add mb-4" %>
           <% end %>
         </div>
