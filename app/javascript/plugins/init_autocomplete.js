@@ -10,12 +10,12 @@ const initAutocomplete = () => {
 
     let $button = document.querySelector('.ap-icon-pin');
 
-    if ("geolocation" in navigator) {
+    // if ("geolocation" in navigator) {
       /* geolocation is available */
       /* If the user does a click on the Locate me button, do a reverse query */
       $button.addEventListener('click', function(e) {
         e.preventDefault();
-        $button.textContent = 'Searching...';
+        // $button.textContent = 'Searching...';
 
         navigator.geolocation.getCurrentPosition(function(position) {
           // console.log(position.coords.latitude, position.coords.longitude);
@@ -25,14 +25,14 @@ const initAutocomplete = () => {
         });
 
       });
-    } else {
-      /* geolocation IS NOT available */
-      $button.addEventListener('click', function(e) {
-        e.preventDefault();
-        $button.textContent = 'Your browser is not compatible...';
+    // } else {
+    //   /* geolocation IS NOT available */
+    //   $button.addEventListener('click', function(e) {
+    //     e.preventDefault();
+    //     $button.textContent = 'Your browser is not compatible...';
 
-      });
-    }
+    //   });
+    // }
 
 
   }
