@@ -1,0 +1,124 @@
+.highlight {
+    background: black !important;
+    transition: all 0.60s ease-in-out;
+    h2, p {
+      color: white !important;
+      transition: all 0.60s ease-in-out;
+    }
+}
+
+.enabled {
+    display: revert;
+}
+
+.disabled {
+    display: none;
+}
+
+.card-artwork:hover {
+  text-decoration: none;
+}
+
+.card-trip {
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  text-decoration: none;
+  padding: 15px;
+}
+
+.card-trip > img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-trip h2 {
+  font-size: 18px;
+  font-weight: 500;
+  color: $gray;
+  margin: 0;
+}
+
+.card-trip p {
+  font-size: 14px;
+  opacity: .7;
+  margin: 0;
+  color: $gray;
+}
+
+
+.card-trip .card-trip-infos {
+  padding-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  position: relative;
+}
+
+.card-trip-infos .card-trip-user {
+  position: absolute;
+  right: 16px;
+  top: -20px;
+  width: 40px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 16px;
+}
+
+.top-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: white;
+  padding: 6px 10px 6px 10px;
+  color: $yellow;
+  border-radius: 4px;
+  font-weight: 500;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.image-status {
+  position: relative;
+  text-align: center;
+  color: white;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+// Smallest device
+@media (min-width: 100px) and (max-width: 575px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .cards {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .cards {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+}
