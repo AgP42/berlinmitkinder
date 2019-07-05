@@ -1,0 +1,58 @@
+<div class="container">
+  <h2 class="pt-5 text-center">Search for babies-friendly places around you!</h2>
+
+  <div class="container my-3 ">
+    <%= form_tag places_path, method: :get do %>
+      <div class="row", style="display:flex; justify-content: space-between; align-items:flex-end">
+
+            <!-- <p style="font-weight: 500">Address</p> -->
+            <%= text_field_tag :addr,
+              params[:addr],
+              class: "",
+              id: "address",
+              style: "",
+              placeholder: @addr_name
+            %>
+            <%= submit_tag 'Search',
+              class: "",
+              style: ""%>
+      </div>
+    <% end %>
+
+    <p>What are you looking for :</p>
+      <% @services.each do |service| %>
+<!--         <label class="switch">
+          <input type="checkbox" class="form-check-input">
+          <span class="slider round"></span>
+        </label> -->
+
+          <%#= check_box_tag service.id %>
+
+          <%= check_box_tag(service.name,
+                       value = service.id,
+                       checked = false,
+                       ) %>
+          <%= h service.name -%>
+
+      <% end %>
+
+  </div>
+
+</div>
+
+<div
+  id="map"
+  style="width: 100%;
+  height: 550px;"
+  data-markers="<%= @markers.to_json %>"
+  data-addr="<%= @addr_coordinates.to_json %>"
+  data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>"
+></div>
+
+<div class="container">
+  <div class="row">
+    <div class="cards pb-5" id="place-card-container">
+        <%= render partial: 'card', collection: @places, as: :place %>
+    </div>
+  </div>
+</div>

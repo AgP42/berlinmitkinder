@@ -1,0 +1,20 @@
+  <div class="card-trip" data-place-id="<%= place.id %>">
+<%= link_to place, class: "card-place" do %>
+    <!-- <img src='<%#= place.image1 %>'> -->
+    <% if place.image1? %>
+      <%= cl_image_tag place.image1, width: 450, height: 400, class: "place-img" %>
+    <% else %>
+      <%= image_tag "empty_cafe.png", class: "place-img" %>
+    <% end %>
+    <div class="card-trip-infos">
+      <div>
+        <h2><%= place.name %></h2>
+        <p><%= place.address %></p>
+        <p><% place.services.each do |service| %>
+          * <%= service.name %>
+        <% end %></p>
+      </div>
+      <!-- <h2 class="card-trip-pricing" style="font-weight: 500"><%#= place.services.first.name %></h2> -->
+    </div>
+<% end %>
+  </div>

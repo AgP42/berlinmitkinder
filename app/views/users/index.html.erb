@@ -1,0 +1,56 @@
+<div class="container page-title">
+  <div class="row">
+    <div class="col-12 col-lg-10">
+      <h1>Hello, <%= @user.name  %>!</h1>
+      <p>Here is your dashboard, you can manage your profile and the places you records, thank you for sharing !</p>
+    </div>
+  </div>
+</div>
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-12 col-lg-7">
+      <div class="profile-field">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-column">
+            <p>Name</p>
+            <h3> <%= @user.name %></h3>
+            <p>Email</p>
+            <h3> <%= @user.email %></h3>
+            <div class="col-12 col-lg-10">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-5">
+      <div class="profile-field">
+        <div class="d-flex flex-column">
+          <p>Your picture</p>
+          <div class="dashboard-img">
+            <% if @user.picture? %>
+              <%= cl_image_tag @user.picture, width: 450, height: 400%>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-lg-7 py-2">
+      <%= link_to "Edit my profile", edit_user_registration_path, class: "btn btn-primary"  %>
+      <%= link_to "Cancel my account", registration_path(current_user), class: "btn btn-danger", data: { confirm: "Are you sure? It will be totally deleted from our database (the places you record will be kept)" }, method: :delete %>
+    </div>
+    <div class="col-12 col-lg-5 py-2">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="cards pb-5">
+        <%= render partial: 'places/card', collection: @user.places, as: :place %>
+    </div>
+  </div>
+</div>
+

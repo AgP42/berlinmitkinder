@@ -1,0 +1,92 @@
+<div class="container pb-3">
+
+   <div class="row justify-content-center mt-3">
+      <div class="col-12 col-lg-6">
+        <div class="back-btn">
+        <%= link_to "Back to the list", places_path(addr: @search_address), class: "btn-third" %>
+        </div>
+        <div class="place-description">
+          <h1><%=  @place.name %> </h1>
+          <h2><%= @place.address %></h2>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="place-button">
+          <% if (@place.user == current_user || current_user.is_admin) %>
+          <%= link_to "Edit this place", edit_place_path(@place), class: "btn-first btn-add mb-4" %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+  <div class="row justify-content-center mt-3 mb-5">
+    <div class="col-12 col-lg-6">
+
+      <div>
+        <div class="place-main-img-box">
+          <% if @place.image1? %>
+          <%= cl_image_tag @place.image1, width: 450, height: 400, class: "place-img" %>
+          <% else %>
+          <%= image_tag "empty_cafe.png", class: "place-img" %>
+          <% end %>
+        </div>
+        <div style="display: flex;">
+          <div class="place-img-box-1">
+            <% if @place.image2? %>
+              <%= cl_image_tag @place.image2, width: 140, height: 150, class: "place-img" %>
+            <% end %>
+          </div>
+          <div class="place-img-box-1">
+            <% if @place.image3? %>
+              <%= cl_image_tag @place.image3, width: 140, height: 150, class: "place-img" %>
+            <% end %>
+          </div>
+          <div class="place-img-box-1">
+            <% if @place.image4? %>
+              <%= cl_image_tag @place.image4, width: 140, height: 150, class: "place-img" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="place-description">
+        <div>
+          <h2>Services</h2>
+          <% @place.services.each do |service| %>
+            <div class="specialty-tag"><%= service.name %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-12 col-lg-6" >
+<div class="place-description">
+        <div class="d-flex flex-column">
+          <h2>About</h2>
+          <p><%= @place.comment %></p>
+          <% if @place.ext_link? %>
+          <%= link_to "More infos on google maps", @place.ext_link, target: '_blank', class: "btn-first btn-add mb-4" %>
+          <% end %>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-12 col-lg-6" >
+
+      <div
+        id="show_map"
+        style="width: 100%;
+        height: 350px;"
+        data-markers="<%= @addr_marker.to_json %>"
+        data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>"
+      ></div>
+
+
+    </div>
+  </div>
+  <p>This place has been recorded on <%= l(@place.created_at, format: :long) %></p>
+</div>
