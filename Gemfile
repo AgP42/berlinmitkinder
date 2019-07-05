@@ -15,9 +15,14 @@ gem 'sassc-rails'
 gem 'simple_form'
 gem 'uglifier'
 gem 'webpacker'
+gem 'geocoder'
+gem 'cloudinary', '~> 1.9.1'
+gem 'carrierwave', '~> 1.2'
+gem 'pundit'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
+  gem 'faker'
 end
 
 group :development, :test do
