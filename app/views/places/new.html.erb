@@ -13,7 +13,13 @@
 
     <script>
       var input = document.getElementById('autocomplete');
-      var autocomplete = new google.maps.places.Autocomplete(input);
+      var options = {
+        // types: ['(cities)'],
+        // see https://developers.google.com/places/web-service/supported_types
+        componentRestrictions: {country: 'de'}
+      };
+
+      var autocomplete = new google.maps.places.Autocomplete(input, options);
       // Set the data fields to return when the user selects a place.
       autocomplete.setFields(
                   [ 'formatted_address', 'url', 'geometry', 'name', 'photos', 'place_id', 'types']);
@@ -25,7 +31,7 @@
         var place = autocomplete.getPlace();
         console.log(place)
 
-        console.log(place.photos[0].getUrl)
+        // console.log(place.photos[0].photo_reference)
 
         if (!place.geometry) {
           // User entered the name of a Place that was not suggested and
@@ -46,6 +52,46 @@
         const comment = document.getElementById('place_comment');
         comment.value = place.place_id;
 
+
+        place.photos.slice(0, 2).forEach(function (placePhoto, index) {
+            var url = placePhoto.getUrl({
+                maxWidth: 450,
+                maxHeight: 400
+            });
+            console.log(url)
+            const googleimage = document.getElementById(`googleimage${index}`);
+            // console.log(googleimage)
+
+            var img = new Image();
+            img.src = url;
+            googleimage.innerHTML = "";
+            googleimage.appendChild(img);
+
+            googleimage.addEventListener('click', (event) => {
+              recordImage(event.target.src, googleimage);
+            });
+
+        });
+
+        imgList = [];
+        index = 0;
+        const recordImage = (url, divSource) => {
+          index += 1;
+          console.log(divSource);
+          if (imgList.includes(url)) {
+            alert('already on the list');
+          } else {
+            imgList.push(url);
+            console.log(imgList);
+            divSource.innerText = `Selected as image n°${index}`
+            const imgLoader = document.getElementById(`place_image${index}`);
+            imgLoader.style.visibility = "hidden";
+            imgLoader.value = url;
+            console.log(imgLoader.value)
+
+          }
+        };
+
       });
 
 
@@ -64,7 +110,12 @@
               <%= f.association :services,   as: :check_boxes %>
 
               <h3>Add your own images :</h3>
-              <p>(will display google places images if availables)</p>
+              <p>(Select google images or add your own)</p>
+              <div id="googleimage0"></div>
+              <div id="googleimage1"></div>
+              <div id="googleimage2"></div>
+              <div id="googleimage3"></div>
+              <div id="googleimage4"></div>
 
               <%= f.input :image1 %>
               <%= f.input :image1_cache, as: :hidden %>

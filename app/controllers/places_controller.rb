@@ -60,6 +60,7 @@ class PlacesController < ApplicationController
     @place = Place.new(place_params)
     authorize @place
     @place.user = current_user
+    raise
     if @place.save
       params[:place][:service_ids].each do |service|
         if service != ""
