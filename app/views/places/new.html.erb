@@ -6,7 +6,8 @@
 
 
 <h3>Search it with google places : </h3>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxpRxs9Wfnft3j3noKGJ9zA0E_SRDwLoU&libraries=places"></script>
+
+<script type="text/javascript" src=<%="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_PLACE_KEY']}&libraries=places"%> ></script>
 
 <input type="text" id="autocomplete" placeholder="Enter a location"/>
 
@@ -17,9 +18,15 @@
       autocomplete.setFields(
                   [ 'formatted_address', 'url', 'geometry', 'name', 'photos', 'place_id', 'types']);
 // https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJc0lauqNRqEcRidW5A807sCY&fields=formatted_address,url,geometry,icon,name,permanently_closed,photos,place_id,types&key=AIzaSyBxpRxs9Wfnft3j3noKGJ9zA0E_SRDwLoU
+
+// The Basic Data SKU is triggered when any of these fields are requested: address_component, adr_address, formatted_address, geometry, icon, name, permanently_closed, photo, place_id, plus_code, type, url, utc_offset, vicinity.
+
       autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
         console.log(place)
+
+        console.log(place.photos[0].getUrl)
+
         if (!place.geometry) {
           // User entered the name of a Place that was not suggested and
           // pressed the Enter key, or the Place Details request failed.
