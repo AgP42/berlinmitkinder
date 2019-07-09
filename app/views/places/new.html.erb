@@ -23,22 +23,19 @@
       // Set the data fields to return when the user selects a place.
       autocomplete.setFields(
                   [ 'formatted_address', 'url', 'geometry', 'name', 'photos', 'place_id', 'types']);
-// https://maps.googleapis.com/maps/api/place/details/json?placeid=ChIJc0lauqNRqEcRidW5A807sCY&fields=formatted_address,url,geometry,icon,name,permanently_closed,photos,place_id,types&key=AIzaSyBxpRxs9Wfnft3j3noKGJ9zA0E_SRDwLoU
 
-// The Basic Data SKU is triggered when any of these fields are requested: address_component, adr_address, formatted_address, geometry, icon, name, permanently_closed, photo, place_id, plus_code, type, url, utc_offset, vicinity.
+      // The Basic Data SKU is triggered when any of these fields are requested: address_component, adr_address, formatted_address, geometry, icon, name, permanently_closed, photo, place_id, plus_code, type, url, utc_offset, vicinity.
 
       autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
-        console.log(place)
+        // console.log(place)
 
-        // console.log(place.photos[0].photo_reference)
-
-        if (!place.geometry) {
-          // User entered the name of a Place that was not suggested and
-          // pressed the Enter key, or the Place Details request failed.
-          window.alert("No details available for input: '" + place.name + "'");
-          return;
-        }
+        // if (!place.geometry) {
+        //   // User entered the name of a Place that was not suggested and
+        //   // pressed the Enter key, or the Place Details request failed.
+        //   window.alert("No details available for input: '" + place.name + "'");
+        //   return;
+        // }
 
         const name = document.getElementById('place_name');
         name.value = place.name;
@@ -55,36 +52,45 @@
         const googlePlaceType = document.getElementById('place_gtypes');
         googlePlaceType.value = place.types;
 
-        place.photos.slice(0, 2).forEach(function (placePhoto, index) {
-            var url = placePhoto.getUrl({
-                maxWidth: 450,
-                maxHeight: 400
-            });
-            console.log(url)
-            const googleimage = document.getElementById(`googleimage${index}`);
-            // console.log(googleimage)
+        // clean previous photo display if any
+        [1, 2, 3, 4, 5].forEach(function (placePhoto, index) {
 
-            var img = new Image();
-            img.src = url;
-            googleimage.innerHTML = "";
-            googleimage.appendChild(img);
-
-            googleimage.addEventListener('click', (event) => {
-              recordImage(event.target.src, googleimage);
-            });
+          const googleimage = document.getElementById(`googleimage${index}`);
+          googleimage.innerHTML = "";
 
         });
 
-        imgList = [];
+        if (place.photos) {
+          place.photos.slice(0, 5).forEach(function (placePhoto, index) {
+              var url = placePhoto.getUrl({
+                  maxWidth: 450,
+                  maxHeight: 400
+              });
+
+              const googleimage = document.getElementById(`googleimage${index}`);
+
+              var img = new Image();
+              img.src = url;
+              // googleimage.innerHTML = "";
+              googleimage.appendChild(img);
+
+              googleimage.addEventListener('click', (event) => {
+                recordImage(event.target.src, googleimage);
+              });
+
+          });
+        }
+
+        // imgList = [];
         index = 0;
         const recordImage = (url, divSource) => {
           index += 1;
-          console.log(divSource);
+          // console.log(divSource);
           if (imgList.includes(url)) {
             alert('already on the list');
           } else {
-            imgList.push(url);
-            console.log(imgList);
+            // imgList.push(url);
+            // console.log(imgList);
             divSource.innerText = `Selected as image n°${index}`;
             const imgLoader = document.getElementById(`place_image${index}`);
             imgLoader.style.visibility = "hidden";
@@ -101,7 +107,6 @@
         };
 
       });
-
 
     </script>
 
