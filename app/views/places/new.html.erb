@@ -49,9 +49,11 @@
         const link = document.getElementById('place_ext_link');
         link.value = place.url;
 
-        const comment = document.getElementById('place_comment');
-        comment.value = place.place_id;
+        const googleplaceid = document.getElementById('place_googleplaceid');
+        googleplaceid.value = place.place_id;
 
+        const googlePlaceType = document.getElementById('place_gtypes');
+        googlePlaceType.value = place.types;
 
         place.photos.slice(0, 2).forEach(function (placePhoto, index) {
             var url = placePhoto.getUrl({
@@ -83,11 +85,17 @@
           } else {
             imgList.push(url);
             console.log(imgList);
-            divSource.innerText = `Selected as image n°${index}`
+            divSource.innerText = `Selected as image n°${index}`;
             const imgLoader = document.getElementById(`place_image${index}`);
             imgLoader.style.visibility = "hidden";
-            imgLoader.value = url;
-            console.log(imgLoader.value)
+            const imgGoogle = document.getElementById(`place_gphoto${index}`);
+            imgGoogle.value = url;
+            const googleimageselected = document.getElementById(`googleimageselected${index}`);
+
+            var img = new Image();
+            img.src = url;
+            googleimageselected.innerHTML = "";
+            googleimageselected.appendChild(img);
 
           }
         };
@@ -119,14 +127,24 @@
 
               <%= f.input :image1 %>
               <%= f.input :image1_cache, as: :hidden %>
+              <div id="googleimageselected1"></div>
               <%= f.input :image2 %>
               <%= f.input :image2_cache, as: :hidden %>
+              <div id="googleimageselected2"></div>
               <%= f.input :image3 %>
               <%= f.input :image3_cache, as: :hidden %>
+              <div id="googleimageselected3"></div>
               <%= f.input :image4 %>
               <%= f.input :image4_cache, as: :hidden %>
+              <div id="googleimageselected4"></div>
+              <%= f.input :gphoto1, as: :hidden %>
+              <%= f.input :gphoto2, as: :hidden %>
+              <%= f.input :gphoto3, as: :hidden %>
+              <%= f.input :gphoto4, as: :hidden %>
               <h3>Something to add ?</h3>
               <%= f.input :comment %>
+              <%= f.input :googleplaceid, as: :hidden %>
+              <%= f.input :gtypes, as: :hidden %>
 
             <div class="form-actions">
               <%= f.submit "Create it!", class: "btn btn-primary mb-5" %>

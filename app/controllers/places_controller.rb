@@ -60,7 +60,22 @@ class PlacesController < ApplicationController
     @place = Place.new(place_params)
     authorize @place
     @place.user = current_user
-    raise
+    if params[:place][:gphoto1]
+      url = params[:place][:gphoto1]
+      @place.remote_image1_url = url
+    end
+    if params[:place][:gphoto2]
+      url = params[:place][:gphoto2]
+      @place.remote_image2_url = url
+    end
+    if params[:place][:gphoto3]
+      url = params[:place][:gphoto3]
+      @place.remote_image3_url = url
+    end
+    if params[:place][:gphoto4]
+      url = params[:place][:gphoto4]
+      @place.remote_image4_url = url
+    end
     if @place.save
       params[:place][:service_ids].each do |service|
         if service != ""
@@ -116,6 +131,7 @@ class PlacesController < ApplicationController
   private
 
   def place_params
-    params.require(:place).permit(:name, :address, :image1, :image2, :image3, :image4, :ext_link, :comment)
+    params.require(:place).permit(:name, :address, :image1, :image2, :image3, :image4, :ext_link, :comment, :googleplaceid, :gtypes)
+    # , :gphoto1, :gphoto2, :gphoto3, :gphoto4
   end
 end
