@@ -5,11 +5,63 @@
       <h2>Record a new place</h2>
 
 
-<h3>Search it with google places : </h3>
+      <h3>Search it with google places : </h3>
 
-<script type="text/javascript" src=<%="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_PLACE_KEY']}&libraries=places"%> ></script>
+      <script type="text/javascript" src=<%="https://maps.googleapis.com/maps/api/js?key=#{ENV['GOOGLE_PLACE_KEY']}&libraries=places"%> ></script>
 
-<input type="text" id="autocomplete" placeholder="Enter a location"/>
+      <input type="text" id="autocomplete" placeholder="Enter a location"/>
+
+      <h3>Check google result : </h3>
+
+        <div class="form-inputs">
+
+          <%= simple_form_for(@place) do |f| %>
+              <%= f.input :name %>
+              <%= f.input :address %>
+              <%= f.input :ext_link %>
+
+              <h3>Add services informations :</h3>
+              <%= f.association :services,   as: :check_boxes %>
+
+              <h3>Add your own images :</h3>
+              <p>(Select google images or add your own)</p>
+              <div id="googleimage0"></div>
+              <div id="googleimage1"></div>
+              <div id="googleimage2"></div>
+              <div id="googleimage3"></div>
+
+              <%= f.input :image1 %>
+              <%= f.input :image1_cache, as: :hidden %>
+              <div id="googleimageselected1"></div>
+              <%= f.input :image2 %>
+              <%= f.input :image2_cache, as: :hidden %>
+              <div id="googleimageselected2"></div>
+              <%= f.input :image3 %>
+              <%= f.input :image3_cache, as: :hidden %>
+              <div id="googleimageselected3"></div>
+              <%= f.input :image4 %>
+              <%= f.input :image4_cache, as: :hidden %>
+              <div id="googleimageselected4"></div>
+              <%= f.input :gphoto1, as: :hidden %>
+              <%= f.input :gphoto2, as: :hidden %>
+              <%= f.input :gphoto3, as: :hidden %>
+              <%= f.input :gphoto4, as: :hidden %>
+              <h3>Something to add ?</h3>
+              <%= f.input :comment %>
+              <%= f.input :googleplaceid, as: :hidden %>
+              <%= f.input :gtypes, as: :hidden %>
+
+              <%= f.input :longitude, as: :hidden %>
+              <%= f.input :latitude, as: :hidden %>
+
+            <div class="form-actions">
+              <%= f.submit "Create it!", class: "btn btn-primary mb-5" %>
+            </div>
+          <% end %>
+        </div>
+    </div>
+  </div>
+</div>
 
     <script>
       var input = document.getElementById('autocomplete');
@@ -28,7 +80,16 @@
 
       autocomplete.addListener('place_changed', function() {
         var place = autocomplete.getPlace();
-        // console.log(place)
+        // console.log(place.geometry)
+        // console.log(place.geometry.viewport.ga.j)
+        // console.log(place.geometry.viewport.na.j)
+
+        // const longitude = document.getElementById('place_longitude');
+        // longitude.value = (place.geometry.viewport.ga.l + place.geometry.viewport.ga.j)/2;
+
+        // const latitude = document.getElementById('place_latitude');
+        // latitude.value = (place.geometry.viewport.na.l + place.geometry.viewport.na.j)/2;
+
 
         // if (!place.geometry) {
         //   // User entered the name of a Place that was not suggested and
@@ -53,7 +114,7 @@
         googlePlaceType.value = place.types;
 
         // clean previous photo display if any
-        [1, 2, 3, 4, 5].forEach(function (placePhoto, index) {
+        [1, 2, 3, 4].forEach(function (placePhoto, index) {
 
           const googleimage = document.getElementById(`googleimage${index}`);
           googleimage.innerHTML = "";
@@ -61,7 +122,7 @@
         });
 
         if (place.photos) {
-          place.photos.slice(0, 5).forEach(function (placePhoto, index) {
+          place.photos.slice(0, 4).forEach(function (placePhoto, index) {
               var url = placePhoto.getUrl({
                   maxWidth: 450,
                   maxHeight: 400
@@ -81,81 +142,24 @@
           });
         }
 
-        // imgList = [];
         index = 0;
         const recordImage = (url, divSource) => {
           index += 1;
-          // console.log(divSource);
-          if (imgList.includes(url)) {
-            alert('already on the list');
-          } else {
-            // imgList.push(url);
-            // console.log(imgList);
-            divSource.innerText = `Selected as image n°${index}`;
-            const imgLoader = document.getElementById(`place_image${index}`);
-            imgLoader.style.visibility = "hidden";
-            const imgGoogle = document.getElementById(`place_gphoto${index}`);
-            imgGoogle.value = url;
-            const googleimageselected = document.getElementById(`googleimageselected${index}`);
 
-            var img = new Image();
-            img.src = url;
-            googleimageselected.innerHTML = "";
-            googleimageselected.appendChild(img);
+          divSource.innerText = `Selected as image n°${index}`;
+          const imgLoader = document.getElementById(`place_image${index}`);
+          imgLoader.style.visibility = "hidden";
+          const imgGoogle = document.getElementById(`place_gphoto${index}`);
+          imgGoogle.value = url;
+          const googleimageselected = document.getElementById(`googleimageselected${index}`);
 
-          }
+          var img = new Image();
+          img.src = url;
+          googleimageselected.innerHTML = "";
+          googleimageselected.appendChild(img);
+
         };
 
       });
 
     </script>
-
-    <h3>Check google result : </h3>
-
-        <div class="form-inputs">
-
-          <%= simple_form_for(@place) do |f| %>
-              <%= f.input :name %>
-              <%= f.input :address %>
-              <%= f.input :ext_link %>
-
-              <h3>Add services informations :</h3>
-              <%= f.association :services,   as: :check_boxes %>
-
-              <h3>Add your own images :</h3>
-              <p>(Select google images or add your own)</p>
-              <div id="googleimage0"></div>
-              <div id="googleimage1"></div>
-              <div id="googleimage2"></div>
-              <div id="googleimage3"></div>
-              <div id="googleimage4"></div>
-
-              <%= f.input :image1 %>
-              <%= f.input :image1_cache, as: :hidden %>
-              <div id="googleimageselected1"></div>
-              <%= f.input :image2 %>
-              <%= f.input :image2_cache, as: :hidden %>
-              <div id="googleimageselected2"></div>
-              <%= f.input :image3 %>
-              <%= f.input :image3_cache, as: :hidden %>
-              <div id="googleimageselected3"></div>
-              <%= f.input :image4 %>
-              <%= f.input :image4_cache, as: :hidden %>
-              <div id="googleimageselected4"></div>
-              <%= f.input :gphoto1, as: :hidden %>
-              <%= f.input :gphoto2, as: :hidden %>
-              <%= f.input :gphoto3, as: :hidden %>
-              <%= f.input :gphoto4, as: :hidden %>
-              <h3>Something to add ?</h3>
-              <%= f.input :comment %>
-              <%= f.input :googleplaceid, as: :hidden %>
-              <%= f.input :gtypes, as: :hidden %>
-
-            <div class="form-actions">
-              <%= f.submit "Create it!", class: "btn btn-primary mb-5" %>
-            </div>
-          <% end %>
-        </div>
-    </div>
-  </div>
-</div>

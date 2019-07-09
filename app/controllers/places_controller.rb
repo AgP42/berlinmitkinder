@@ -131,7 +131,7 @@ class PlacesController < ApplicationController
   private
 
   def place_params
-    params.require(:place).permit(:name, :address, :image1, :image2, :image3, :image4, :ext_link, :comment, :googleplaceid, :gtypes)
+    params.require(:place).permit(:name, :address, :image1, :image2, :image3, :image4, :ext_link, :comment, :googleplaceid, :gtypes, :longitude, :latitude)
     # , :gphoto1, :gphoto2, :gphoto3, :gphoto4
   end
 end
